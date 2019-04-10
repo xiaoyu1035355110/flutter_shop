@@ -24,6 +24,7 @@ class _IndexPageState extends State<IndexPage> {
     MemberPage()
   ];
 
+  //定义底部导航选项组
   final List<BottomNavigationBarItem> bottomTabs = [
     BottomNavigationBarItem(
       icon: Icon(CupertinoIcons.home),
@@ -43,6 +44,7 @@ class _IndexPageState extends State<IndexPage> {
     )
   ];
 
+  //初始化方法
   @override
   void initState() {
     super.initState();
@@ -58,13 +60,14 @@ class _IndexPageState extends State<IndexPage> {
         title: Text('百姓生活'),
         elevation: 0.0,
       ),
-      body: currentPage,
-      backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
+      body: currentPage, //当前显示页面
+      backgroundColor: Color.fromRGBO(244, 245, 245, 1.0), //底部栏背景色
       bottomNavigationBar: BottomNavigationBar( //底部导航栏
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentIndex,
-        items: bottomTabs,
-        onTap: (index) {
+        type: BottomNavigationBarType.fixed, //导航栏类型PS: 必须在3个以上才有效果
+        currentIndex: currentIndex,//当前显示的索引
+        items: bottomTabs, //显示的选项组
+        onTap: (index) { //点击切换传入索引
+          //点击后设置当前显示的索引以及显示的页面
           setState(() {
            currentIndex = index; 
            currentPage = tabBodies[currentIndex];
