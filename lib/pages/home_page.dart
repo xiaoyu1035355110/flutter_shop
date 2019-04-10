@@ -43,8 +43,8 @@ class _HomePageState extends State<HomePage> {
       };
 
       //执行get请求并传入参数
-      response = await Dio().get(
-        'https://www.easy-mock.com/mock/5c7504f63e792633f82eb74a/thankgod/fruit',
+      response = await Dio().post(
+        'https://www.easy-mock.com/mock/5c7504f63e792633f82eb74a/thankgod/fruit_post',
         queryParameters: data
       );
 
