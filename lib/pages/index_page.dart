@@ -56,10 +56,6 @@ class _IndexPageState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('百姓生活'),
-        elevation: 0.0,
-      ),
       body: currentPage, //当前显示页面
       backgroundColor: Color.fromRGBO(244, 245, 245, 1.0), //底部栏背景色
       bottomNavigationBar: BottomNavigationBar( //底部导航栏
