@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'home_page.dart';
 import 'category_page.dart';
@@ -55,6 +56,7 @@ class _IndexPageState extends State<IndexPage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);//初始化设计图配置
     return Scaffold(
       body: currentPage, //当前显示页面
       backgroundColor: Color.fromRGBO(244, 245, 245, 1.0), //底部栏背景色
