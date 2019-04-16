@@ -26,7 +26,7 @@ Future getHomePageContent() async {
 }
 
 //商店首页热卖商品
-Future homePageBelowConten() async {
+Future getHomePageBelowConten() async {
   try {
     print('获取首页数据.........');
     Response response;
