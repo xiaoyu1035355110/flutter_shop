@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                     FloorContent(floorGoodsList: floor2),
                     FloorTitle(picture_address: floor3Title),
                     FloorContent(floorGoodsList: floor3),
+                    HotGoods()
                   ],
                 ),
               );
@@ -348,6 +349,29 @@ class FloorContent extends StatelessWidget {
           _otherGoods()
         ],
       ),
+    );
+  }
+}
+
+//热卖商品
+class HotGoods extends StatefulWidget {
+  @override
+  _HotGoodsState createState() => _HotGoodsState();
+}
+
+class _HotGoodsState extends State<HotGoods> {
+  @override
+  void initState() {
+    getHomePageBelowConten().then((val) {
+      print(val);
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text('测试热卖商品接口给'),
     );
   }
 }
