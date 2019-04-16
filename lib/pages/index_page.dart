@@ -18,7 +18,7 @@ class _IndexPageState extends State<IndexPage> {
   var currentPage;
 
   //定义变量接收引入的页面
-  final List tabBodies = [
+  final List<Widget> tabBodies = [
     HomePage(),
     CategoryPage(),
     CartPage(),
@@ -58,7 +58,10 @@ class _IndexPageState extends State<IndexPage> {
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);//初始化设计图配置
     return Scaffold(
-      body: currentPage, //当前显示页面
+      body: IndexedStack( //保持页面状态
+        index: currentIndex,
+        children: tabBodies,
+      ), //当前显示页面
       backgroundColor: Color.fromRGBO(244, 245, 245, 1.0), //底部栏背景色
       bottomNavigationBar: BottomNavigationBar( //底部导航栏
         type: BottomNavigationBarType.fixed, //导航栏类型PS: 必须在3个以上才有效果
