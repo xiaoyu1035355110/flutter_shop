@@ -30,13 +30,15 @@ class _HomePageState extends State<HomePage> {
               String adPicture = data['data']['advertesPicture']['PICTURE_ADDRESS'];
               String leaderImage = data['data']['shopInfo']['leaderImage'];
               String leaderPhone = data['data']['shopInfo']['leaderPhone'];
-              return Column(
-                children: <Widget>[
-                  SwiperDiy(swiperDataList: swiperDataList),
-                  TopNavigator(navigatorList: navigatorList),
-                  AdBanner(adPicture: adPicture),
-                  LeaderPhone(leaderImage: leaderImage, leaderPhone: leaderPhone,)
-                ],
+              return SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    SwiperDiy(swiperDataList: swiperDataList),
+                    TopNavigator(navigatorList: navigatorList),
+                    AdBanner(adPicture: adPicture),
+                    LeaderPhone(leaderImage: leaderImage, leaderPhone: leaderPhone,)
+                  ],
+                ),
               );
             } else {
               return Center(
