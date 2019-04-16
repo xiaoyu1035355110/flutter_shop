@@ -18,13 +18,18 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   @override
   Widget build(BuildContext context) {
+    var formData = {
+      'lon': '115.02932',
+      'lat': '35.76189'
+    };
+    
     return Container(
       child: Scaffold(
         appBar: AppBar(
           title: Text('百姓生活+'),
         ),
         body: FutureBuilder( //异步渲染组件
-          future: getHomePageContent(), //渲染执行对应方法
+          future: request('homePageContext', formData), //渲染执行对应方法
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               var data = json.decode(snapshot.data.toString());
@@ -362,7 +367,7 @@ class HotGoods extends StatefulWidget {
 class _HotGoodsState extends State<HotGoods> {
   @override
   void initState() {
-    getHomePageBelowConten().then((val) {
+    request('homePageBelowConten', 1).then((val) {
       print(val);
     });
     super.initState();
