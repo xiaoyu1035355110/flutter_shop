@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                 ),
                 loadMore: () async {
                   var formData = {'page': page}; //设置请求参数
-                  request('homePageBelowConten', formData: formData).then((val) {
+                  await request('homePageBelowConten', formData: formData).then((val) {
                     var data = json.decode(val.toString()); //将请求回来的数据转换成字符串类型
                     List<Map> newGoodsList = (data['data'] as List).cast(); //将字符串转换成List<Map>类型赋值给newGoodsList
                     setState(() {
