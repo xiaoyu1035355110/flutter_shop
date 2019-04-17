@@ -18,8 +18,8 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 
-  void _getCategory(){
-    request('getCategory').then((val){
+  void _getCategory() async {
+    await request('getCategory').then((val){
       var data = json.decode(val.toString());
       print(data);
     });
