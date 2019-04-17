@@ -11,10 +11,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+  int page = 1; //火爆商品下拉分页
+  List<Map> hotGoodsList = []; //火爆商品列表
   String homePageContent = '正在获取数据';
 
+  //初始化方法
   @override
-  bool get wantKeepAlive => true; //保持页面状态
+  void initState() { 
+    _getHotGoodsList();
+    super.initState();
+  }
+  
+  //保持页面状态
+  @override
+  bool get wantKeepAlive => true; 
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +70,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                     FloorContent(floorGoodsList: floor2),
                     FloorTitle(picture_address: floor3Title),
                     FloorContent(floorGoodsList: floor3),
-                    HotGoods()
+                    _hotGoods()
                   ],
                 ),
               );
@@ -71,6 +81,92 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             }
           },
         )
+      ),
+    );
+  }
+
+  //请求火爆商品接口
+  void _getHotGoodsList () {
+    var formData = {'page': page}; //设置请求参数
+    request('homePageBelowConten', formData: formData).then((val) {
+      var data = json.decode(val.toString()); //将请求回来的数据转换成字符串类型
+      List<Map> newGoodsList = (data['data'] as List).cast(); //将字符串转换成List<Map>类型赋值给newGoodsList
+      setState(() {
+        hotGoodsList.addAll(newGoodsList); //把List<Map>类型的newGoodsList的所有成员全部添加给hotGoodsList
+        page++;
+      });
+    });
+  }
+
+  //火爆商品标题
+  Widget hotTitle = Container(
+    margin: EdgeInsets.only(top: 10.0),
+    padding: EdgeInsets.all(5.0),
+    alignment: Alignment.center,
+    color: Colors.transparent,
+    child: Text(
+      '火爆商品'
+    ),
+  );
+
+  //火爆商品列表
+  Widget _wapList() {
+    if (hotGoodsList.length != 0) {
+      List<Widget> listWidget = hotGoodsList.map((val){
+        return InkWell(
+          onTap: (){},
+          child: Container(
+            width: ScreenUtil().setWidth(372),
+            color: Colors.white,
+            padding: EdgeInsets.all(5.0),
+            margin: EdgeInsets.only(bottom: 3.0),
+            child: Column(
+              children: <Widget>[
+                Image.network(val['image'], width: ScreenUtil().setWidth(370),),
+                Text(
+                  val['name'],
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.pink,
+                    fontSize: ScreenUtil().setSp(26)
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Text('¥${val['mallPrice']}'),
+                    Text(
+                      '¥${val['price']}',
+                      style: TextStyle(
+                        color: Colors.black26,
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      }).toList();
+
+      return Wrap(
+        spacing: 2,
+        children: listWidget,
+      );
+    } else {
+      return Text('');
+    }
+  } 
+
+  //火爆商品部件
+  Widget _hotGoods() {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          hotTitle,
+          _wapList()
+        ],
       ),
     );
   }
@@ -358,25 +454,3 @@ class FloorContent extends StatelessWidget {
   }
 }
 
-//热卖商品
-class HotGoods extends StatefulWidget {
-  @override
-  _HotGoodsState createState() => _HotGoodsState();
-}
-
-class _HotGoodsState extends State<HotGoods> {
-  @override
-  void initState() {
-    request('homePageBelowConten', formData: 1).then((val) {
-      print(val);
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text('测试热卖商品接口给'),
-    );
-  }
-}
