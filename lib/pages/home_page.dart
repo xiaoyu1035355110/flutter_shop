@@ -4,6 +4,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:convert';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,11 +15,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   int page = 1; //火爆商品下拉分页
   List<Map> hotGoodsList = []; //火爆商品列表
   String homePageContent = '正在获取数据';
+  GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>(); //声明上拉加载key
 
   //初始化方法
   @override
   void initState() { 
-    _getHotGoodsList();
     super.initState();
   }
   
@@ -56,8 +57,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
               List<Map> floor2 = (data['data']['floor2'] as List).cast();
               List<Map> floor3 = (data['data']['floor3'] as List).cast();
 
-              return SingleChildScrollView(
-                child: Column(
+              return EasyRefresh(
+                child: ListView(
                   children: <Widget>[
                     SwiperDiy(swiperDataList: swiperDataList),
                     TopNavigator(navigatorList: navigatorList),
@@ -73,6 +74,28 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                     _hotGoods()
                   ],
                 ),
+                refreshFooter: ClassicsFooter(
+                  key: _footerKey,
+                  bgColor: Colors.white, //背景颜色
+                  textColor: Colors.pink, //文字颜色
+                  moreInfoColor: Colors.pink, //加载更多的文字颜色
+                  showMore: true, //显示加载更多
+                  noMoreText: '',//全部加载完成后的文字
+                  moreInfo: '加载中',//加载时显示的文字
+                  loadReadyText: '上拉加载...',//准备上拉时显示的文字
+
+                ),
+                loadMore: () async {
+                  var formData = {'page': page}; //设置请求参数
+                  request('homePageBelowConten', formData: formData).then((val) {
+                    var data = json.decode(val.toString()); //将请求回来的数据转换成字符串类型
+                    List<Map> newGoodsList = (data['data'] as List).cast(); //将字符串转换成List<Map>类型赋值给newGoodsList
+                    setState(() {
+                      hotGoodsList.addAll(newGoodsList); //把List<Map>类型的newGoodsList的所有成员全部添加给hotGoodsList
+                      page++;
+                    });
+                  });
+                },
               );
             } else {
               return Center(
@@ -84,20 +107,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       ),
     );
   }
-
-  //请求火爆商品接口
-  void _getHotGoodsList () {
-    var formData = {'page': page}; //设置请求参数
-    request('homePageBelowConten', formData: formData).then((val) {
-      var data = json.decode(val.toString()); //将请求回来的数据转换成字符串类型
-      List<Map> newGoodsList = (data['data'] as List).cast(); //将字符串转换成List<Map>类型赋值给newGoodsList
-      setState(() {
-        hotGoodsList.addAll(newGoodsList); //把List<Map>类型的newGoodsList的所有成员全部添加给hotGoodsList
-        page++;
-      });
-    });
-  }
-
   //火爆商品标题
   Widget hotTitle = Container(
     margin: EdgeInsets.only(top: 10.0),
