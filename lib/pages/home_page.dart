@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
           title: Text('百姓生活+'),
         ),
         body: FutureBuilder( //异步渲染组件
-          future: request('homePageContext', formData), //渲染执行对应方法
+          future: request('homePageContext', formData: formData), //渲染执行对应方法
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               var data = json.decode(snapshot.data.toString());
@@ -367,7 +367,7 @@ class HotGoods extends StatefulWidget {
 class _HotGoodsState extends State<HotGoods> {
   @override
   void initState() {
-    request('homePageBelowConten', 1).then((val) {
+    request('homePageBelowConten', formData: 1).then((val) {
       print(val);
     });
     super.initState();
