@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provide/provide.dart';
+import '../provide/counter.dart';
 
 class CartPage extends StatelessWidget {
   @override
@@ -26,10 +28,14 @@ class _NumberState extends State<Number> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 200),
-      child: Text(
-        '0',
-        style: Theme.of(context).textTheme.display1,
-      ),
+      child: Provide<Counter>( //使用Provide指定泛型利用builder输出数据
+        builder: (context, child, counter) {
+          return Text(
+            '${counter.value}',
+            style: Theme.of(context).textTheme.display1,
+          );
+        },
+      )
     );
   }
 }
@@ -44,7 +50,9 @@ class _MyButtonState extends State<MyButton> {
   Widget build(BuildContext context) {
     return Container(
       child: RaisedButton(
-        onPressed: (){},
+        onPressed: (){
+          Provide.value<Counter>(context).increment();//使用Provide指定泛型利用利用上下文来调用方法
+        },
         child: Text('递增'),
       ),
     );
