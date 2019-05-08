@@ -24,7 +24,8 @@ class _CategoryPageState extends State<CategoryPage> {
             LeftCategoryNav(),
             Column(
               children: <Widget>[
-                RightCategoryNav()
+                RightCategoryNav(),
+                CategoryGoodsList()
               ],
             )
           ],
@@ -169,5 +170,39 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
         ),
       ),
     );
+  }
+}
+
+//分类列表下商品列表
+class CategoryGoodsList extends StatefulWidget {
+  @override
+  _CategoryGoodsListState createState() => _CategoryGoodsListState();
+}
+
+class _CategoryGoodsListState extends State<CategoryGoodsList> {
+  @override
+
+  @override
+  void initState() { 
+    super.initState();
+    _getGoodList();
+  }
+
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text('商品列表'),
+    );
+  }
+
+  void _getGoodList() async {
+    var data = {
+      'categoryId': '4',
+      'categorySubId':"",
+      'page': 1
+    };
+    await request('getMallGoods', formData: data).then((val){
+      var data = json.decode(val.toString());
+      print('商品分类: ${data}');
+    });
   }
 }
