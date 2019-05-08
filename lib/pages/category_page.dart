@@ -57,8 +57,9 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 
       CategoryModel category = CategoryModel.fromJson(data);
       setState(() {
-        list = category.data; 
+        list = category.data;
       });
+      Provide.value<ChildCategory>(context).getChildCategoryList(list[0].bxMallSubDto); 
     });
   }
 
@@ -105,7 +106,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
           ),
         ),
         decoration: BoxDecoration(
-          color: isClick ? Colors.black26 : Colors.white,
+          color: isClick ? Color.fromRGBO(236, 236, 236, 1.0) : Colors.white,
           border: Border(
             bottom: BorderSide(
               width: 1,
