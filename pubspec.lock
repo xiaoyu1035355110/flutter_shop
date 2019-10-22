@@ -7,7 +7,11 @@ packages:
       name: async
       url: "https://pub.flutter-io.cn"
     source: hosted
+<<<<<<< HEAD
     version: "2.3.0"
+=======
+    version: "2.2.0"
+>>>>>>> 8039a294bd80e7ba84dc4e13b7d02c500738bb95
   boolean_selector:
     dependency: transitive
     description:
@@ -115,7 +119,11 @@ packages:
       name: pedantic
       url: "https://pub.flutter-io.cn"
     source: hosted
+<<<<<<< HEAD
     version: "1.8.0+1"
+=======
+    version: "1.7.0"
+>>>>>>> 8039a294bd80e7ba84dc4e13b7d02c500738bb95
   provide:
     dependency: "direct main"
     description:
@@ -129,7 +137,11 @@ packages:
       name: quiver
       url: "https://pub.flutter-io.cn"
     source: hosted
+<<<<<<< HEAD
     version: "2.0.5"
+=======
+    version: "2.0.3"
+>>>>>>> 8039a294bd80e7ba84dc4e13b7d02c500738bb95
   sky_engine:
     dependency: transitive
     description: flutter
