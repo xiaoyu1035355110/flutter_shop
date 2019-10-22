@@ -63,7 +63,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
       setState(() {
         list = category.data;
       });
-      Provide.value<ChildCategory>(context).getChildCategoryList(list[0].bxMallSubDto); 
+      Provide.value<ChildCategory>(context).getChildCategoryList(list[0].bxMallSubDto,list[0].mallCategoryId); 
     });
   }
 
@@ -112,7 +112,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         });
         var childList = list[index].bxMallSubDto;//获取当前一级分类下的二级列表
         var categoryId = list[index].mallCategoryId; //获取当前一级分类id
-        Provide.value<ChildCategory>(context).getChildCategoryList(childList); //修改二级分类的管理状态列表
+        Provide.value<ChildCategory>(context).getChildCategoryList(childList, categoryId); //修改二级分类的管理状态列表
         _getGoodList(categoryId: categoryId);
       },
       child: Container(
@@ -166,7 +166,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
             scrollDirection: Axis.horizontal, //设置滚动方向
             itemCount: childCategory.childCategoryList.length,
             itemBuilder: (context, index) {
-              return _rightInkWell(index, childCategory.childCategoryList[index].mallSubName); //调用子类
+              return _rightInkWell(index, childCategory.childCategoryList[index]); //调用子类
             },
           ),
         );
@@ -175,17 +175,18 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
   }
 
   //子类单独项
-  Widget _rightInkWell(int index, String item) {
+  Widget _rightInkWell(int index, BxMallSubDto item) {
     bool isClick = false; //判断是否点击
     isClick = (index == Provide.value<ChildCategory>(context).childIndex) ? true : false;
     return InkWell(
       onTap: (){
         Provide.value<ChildCategory>(context).changeChildIndex(index);
+        _getGoodList(item.mallSubId);
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
         child: Text(
-          item,
+          item.mallSubName,
           style: TextStyle(
             fontSize: ScreenUtil().setSp(28),
             color: isClick ? Colors.pink : Colors.black
@@ -193,6 +194,19 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
         ),
       ),
     );
+  }
+
+  void _getGoodList(categorySubId) {
+    var data = {
+      'categoryId': Provide.value<ChildCategory>(context).categoryId,
+      'categorySubId':categorySubId,
+      'page': 1
+    };
+    request('getMallGoods', formData: data).then((val){
+      var data = json.decode(val.toString());
+      CategoryGoodsListModel goodslist = CategoryGoodsListModel.fromJson(data);
+      Provide.value<CategoryGoodsListProvide>(context).getGoodsList(goodslist.data);
+    });
   }
 }
 
