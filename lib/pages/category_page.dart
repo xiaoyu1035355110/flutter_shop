@@ -166,7 +166,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
             scrollDirection: Axis.horizontal, //设置滚动方向
             itemCount: childCategory.childCategoryList.length,
             itemBuilder: (context, index) {
-              return _rightInkWell(childCategory.childCategoryList[index].mallSubName); //调用子类
+              return _rightInkWell(index, childCategory.childCategoryList[index].mallSubName); //调用子类
             },
           ),
         );
@@ -175,15 +175,20 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
   }
 
   //子类单独项
-  Widget _rightInkWell(String item) {
+  Widget _rightInkWell(int index, String item) {
+    bool isClick = false; //判断是否点击
+    isClick = (index == Provide.value<ChildCategory>(context).childIndex) ? true : false;
     return InkWell(
-      onTap: (){},
+      onTap: (){
+        Provide.value<ChildCategory>(context).changeChildIndex(index);
+      },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
         child: Text(
           item,
           style: TextStyle(
-            fontSize: ScreenUtil().setSp(28)
+            fontSize: ScreenUtil().setSp(28),
+            color: isClick ? Colors.pink : Colors.black
           )
         ),
       ),
@@ -207,14 +212,16 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   Widget build(BuildContext context) {
     return Provide<CategoryGoodsListProvide>(
       builder: (context, child, data) {
-        return Container(
-          width: ScreenUtil().setWidth(570),
-          height: ScreenUtil().setHeight(930),
-          child: ListView.builder(
-            itemCount: data.goodsList.length,
-            itemBuilder: (context, index) {
-              return _listWidget(data.goodsList, index);
-            },
+        return Expanded(
+          child: Container(
+            width: ScreenUtil().setWidth(570),
+            height: ScreenUtil().setHeight(1000),
+            child: ListView.builder(
+              itemCount: data.goodsList.length,
+              itemBuilder: (context, index) {
+                return _listWidget(data.goodsList, index);
+              },
+            ),
           ),
         );
       },
