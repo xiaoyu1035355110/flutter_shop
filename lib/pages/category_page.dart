@@ -180,7 +180,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
     isClick = (index == Provide.value<ChildCategory>(context).childIndex) ? true : false;
     return InkWell(
       onTap: (){
-        Provide.value<ChildCategory>(context).changeChildIndex(index);
+        Provide.value<ChildCategory>(context).changeChildIndex(index, item.mallSubId);
         _getGoodList(item.mallSubId);
       },
       child: Container(
@@ -197,6 +197,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
   }
 
   void _getGoodList(categorySubId) {
+    print(categorySubId);
     var data = {
       'categoryId': Provide.value<ChildCategory>(context).categoryId,
       'categorySubId':categorySubId,
@@ -205,7 +206,11 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
     request('getMallGoods', formData: data).then((val){
       var data = json.decode(val.toString());
       CategoryGoodsListModel goodslist = CategoryGoodsListModel.fromJson(data);
-      Provide.value<CategoryGoodsListProvide>(context).getGoodsList(goodslist.data);
+      if (goodslist.data != null) {
+        Provide.value<CategoryGoodsListProvide>(context).getGoodsList(goodslist.data);
+      } else {
+        Provide.value<CategoryGoodsListProvide>(context).getGoodsList([]);
+      }
     });
   }
 }
@@ -226,18 +231,24 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   Widget build(BuildContext context) {
     return Provide<CategoryGoodsListProvide>(
       builder: (context, child, data) {
-        return Expanded(
-          child: Container(
-            width: ScreenUtil().setWidth(570),
-            height: ScreenUtil().setHeight(1000),
-            child: ListView.builder(
-              itemCount: data.goodsList.length,
-              itemBuilder: (context, index) {
-                return _listWidget(data.goodsList, index);
-              },
+        if (data.goodsList.length > 0) {
+          return Expanded(
+            child: Container(
+              width: ScreenUtil().setWidth(570),
+              height: ScreenUtil().setHeight(1000),
+              child: ListView.builder(
+                itemCount: data.goodsList.length,
+                itemBuilder: (context, index) {
+                  return _listWidget(data.goodsList, index);
+                },
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          return Text(
+            '当前暂无数据'
+          );
+        }
       },
     );
   }
