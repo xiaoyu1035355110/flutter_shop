@@ -11,14 +11,14 @@ class ChildCategory with ChangeNotifier {
   String noMoreText = ''; //显示更多的标识
 
   //点击大类逻辑
-  getChildCategoryList(List<BxMallSubDto> list, String categoryId) {
+  getChildCategoryList(List<BxMallSubDto> list, String cId) {
     childIndex = 0;//点击大类初始化默认下标
-    categoryId = categoryId; //点击大类传入大类id
+    categoryId = cId; //点击大类传入大类id
     page = 1; //初始化分页
     noMoreText = '';
     BxMallSubDto all = BxMallSubDto();
     all.mallSubId = '';
-    all.mallCategoryId = '';
+    all.mallCategoryId = '00';
     all.comments = 'null';
     all.mallSubName = '全部';
     childCategoryList = [all];
@@ -26,11 +26,11 @@ class ChildCategory with ChangeNotifier {
     notifyListeners(); //数据改变通知
   }
 
-  changeChildIndex(int index, String categorySubId) {
+  changeChildIndex(int index, String subId) {
     page = 1; //初始化分页
     noMoreText = ''; //显示更多的代码
     childIndex = index;
-    categorySubId = categorySubId;
+    categorySubId = subId;
     notifyListeners();
   }
 
