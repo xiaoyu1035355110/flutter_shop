@@ -11,6 +11,8 @@ void main() {
   var childCategory = ChildCategory();
   var providers = Providers();//管理状态
   var categoryGoodsListProvide = CategoryGoodsListProvide();
+  final router = Router();
+
   providers
     ..provide(Provider<Counter>.value(counter))//管理Counter泛型的状态
     ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide))//管理Counter泛型的状态
