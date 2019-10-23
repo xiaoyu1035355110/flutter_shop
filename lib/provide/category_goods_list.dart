@@ -9,4 +9,10 @@ class CategoryGoodsListProvide with ChangeNotifier {
     goodsList = list;
     notifyListeners();
   }
+
+  //上拉加载更多列表
+  getMoreList(List<CategoryListData> list) {
+    goodsList.addAll(list);
+    notifyListeners();
+  }
 }

@@ -7,11 +7,15 @@ class ChildCategory with ChangeNotifier {
   int childIndex = 0; //子类高亮索引
   String categoryId = "4"; //默认大类id
   String categorySubId = ""; //子类id
+  int page = 1; //列表页面, 当改变大类或者小类时进行改变
+  String noMoreText = ''; //显示更多的标识
 
   //点击大类逻辑
-  getChildCategoryList(List<BxMallSubDto> list, categoryId) {
+  getChildCategoryList(List<BxMallSubDto> list, String categoryId) {
     childIndex = 0;//点击大类初始化默认下标
     categoryId = categoryId; //点击大类传入大类id
+    page = 1; //初始化分页
+    noMoreText = '';
     BxMallSubDto all = BxMallSubDto();
     all.mallSubId = '';
     all.mallCategoryId = '';
@@ -22,9 +26,22 @@ class ChildCategory with ChangeNotifier {
     notifyListeners(); //数据改变通知
   }
 
-  changeChildIndex(index, String categorySubId) {
+  changeChildIndex(int index, String categorySubId) {
+    page = 1; //初始化分页
+    noMoreText = ''; //显示更多的代码
     childIndex = index;
     categorySubId = categorySubId;
+    notifyListeners();
+  }
+
+  //增加page方法
+  addPage() {
+    page++;
+  }
+
+  //改变noMoreText数据
+  changeNoMore(String text) {
+    noMoreText = text;
     notifyListeners();
   }
 }
