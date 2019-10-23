@@ -5,13 +5,19 @@ import './provide/counter.dart';
 import './provide/child_category.dart';
 import './provide/category_goods_list.dart';
 import 'package:fluro/fluro.dart';
+import './routers/routes.dart';
+import './routers/application.dart';
 
 void main() {
   var counter = Counter();
   var childCategory = ChildCategory();
   var providers = Providers();//管理状态
   var categoryGoodsListProvide = CategoryGoodsListProvide();
+
+  //注册全局路由
   final router = Router();
+  Routes.configureRoutes(router); //routes->configureRoutes
+  Application.router = router; //router静态化
 
   providers
     ..provide(Provider<Counter>.value(counter))//管理Counter泛型的状态
@@ -31,6 +37,7 @@ class MyApp extends StatelessWidget {
     return Container(
       child: MaterialApp(
         title: '百姓生活+',
+        onGenerateRoute: Application.router.generator, //注入顶层router
         debugShowCheckedModeBanner: false, //是否开启debug角标
         theme: ThemeData(
           primaryColor: Colors.pink //设置app主题色
