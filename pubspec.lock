@@ -7,11 +7,7 @@ packages:
       name: async
       url: "https://pub.flutter-io.cn"
     source: hosted
-<<<<<<< HEAD
     version: "2.3.0"
-=======
-    version: "2.2.0"
->>>>>>> 8039a294bd80e7ba84dc4e13b7d02c500738bb95
   boolean_selector:
     dependency: transitive
     description:
@@ -174,9 +170,26 @@ packages:
     source: hosted
 <<<<<<< HEAD
     version: "2.0.5"
+<<<<<<< HEAD
 =======
     version: "2.0.3"
 >>>>>>> 8039a294bd80e7ba84dc4e13b7d02c500738bb95
+=======
+  shared_preferences:
+    dependency: "direct main"
+    description:
+      name: shared_preferences
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.4+8"
+  shared_preferences_platform_interface:
+    dependency: transitive
+    description:
+      name: shared_preferences_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
+>>>>>>> shop50
   sky_engine:
     dependency: transitive
     description: flutter
@@ -254,4 +267,4 @@ packages:
     version: "2.0.8"
 sdks:
   dart: ">=2.3.0 <3.0.0"
-  flutter: ">=1.2.0 <2.0.0"
+  flutter: ">=1.6.7 <2.0.0"
