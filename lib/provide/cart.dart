@@ -40,7 +40,7 @@ class CartProvide with ChangeNotifier {
         'goodsName': goodsName,
         'count': count,
         'price': price,
-        'iamges': images
+        'images': images
       };
       tempList.add(newGoods);
       //将商品转换为CartInfoModel类型
