@@ -40,7 +40,12 @@ class CartItem extends StatelessWidget {
       child: Checkbox(
         value: item.isCheck,
         activeColor: Colors.pink,
-        onChanged: (bool val) {},
+        onChanged: (bool val) {
+          //改变当前选项状态
+          item.isCheck = val;
+          //执行changeCheckState传入item
+          Provide.value<CartProvide>(context).changeCheckState(item);
+        },
       ),
     );
   }
