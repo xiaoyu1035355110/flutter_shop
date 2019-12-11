@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/pages/cart_page/cart_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/cartInfo.dart';
@@ -119,6 +120,32 @@ class CartProvide with ChangeNotifier {
     //重新持久化存储
     prefs.setString('cartInfo', cartString);
     //删除完成后重新拉取购物车信息
+    await getCartInfo();
+  }
+
+  //改变商品选中状态
+  changeCheckState( CartInfoModel cartItem ) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    cartString = prefs.getString('cartInfo');
+    List<Map> tempList = (json.decode(cartString.toString()) as List).cast();
+    
+    int tempIndex = 0;
+    int changeIndex = 0;
+
+    tempList.forEach((item) {
+      //判断是否选中当前选项
+      if (item['goodsId'] == cartItem.goodsId) {
+        changeIndex = tempIndex;
+      }
+      tempIndex++;
+    });
+    //如果为当前选中项将对象转换为Map   tojson直接转换List<Map>类型
+    tempList[changeIndex] = cartItem.toJson();
+    //重新转化字符串对象存入持久化
+    cartString = json.encode(tempList).toString();
+    prefs.setString('cartInfo', cartString);
+
+    //领取购物车信息
     await getCartInfo();
   }
 }
