@@ -9,6 +9,7 @@ class CartProvide with ChangeNotifier {
   List<CartInfoModel> cartList = [];
   double allPrice = 0; //总价格
   int allGoodsCount = 0; //总数量
+  bool isAllCheck = true; //全选状态
 
   save(goodsId, goodsName, count, price, images) async {
     //初始化持久化配置
@@ -82,11 +83,14 @@ class CartProvide with ChangeNotifier {
       List<Map> tempList = (json.decode(cartString.toString()) as List).cast();
       allPrice = 0;
       allGoodsCount = 0;
+      isAllCheck = true;
       tempList.forEach((item) {
         if (item['isCheck']) {
           //总价格 = 商品总数 * 商品单价
           allPrice += (item['count'] * item['price']);
           allGoodsCount += item['count'];
+        } else {
+          isAllCheck = false;
         }
         cartList.add(new CartInfoModel.fromJson(item));
       });
@@ -143,6 +147,25 @@ class CartProvide with ChangeNotifier {
     tempList[changeIndex] = cartItem.toJson();
     //重新转化字符串对象存入持久化
     cartString = json.encode(tempList).toString();
+    prefs.setString('cartInfo', cartString);
+
+    //领取购物车信息
+    await getCartInfo();
+  }
+
+  //点击全选按钮操作
+  changeAllCheckBtn (bool isCheck) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    cartString = prefs.getString('cartInfo');
+    List<Map> tempList = (json.decode(cartString.toString()) as List).cast();
+    List<Map> newList = [];
+    for (var item in tempList) {
+      var newItem = item;
+      newItem['isCheck'] = isCheck;
+      newList.add(newItem);
+    }
+    //重新转化字符串对象存入持久化
+    cartString = json.encode(newList).toString();
     prefs.setString('cartInfo', cartString);
 
     //领取购物车信息
