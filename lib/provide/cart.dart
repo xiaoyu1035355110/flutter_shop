@@ -40,7 +40,8 @@ class CartProvide with ChangeNotifier {
         'goodsName': goodsName,
         'count': count,
         'price': price,
-        'images': images
+        'images': images,
+        'isCheck': true
       };
       tempList.add(newGoods);
       //将商品转换为CartInfoModel类型
@@ -49,8 +50,8 @@ class CartProvide with ChangeNotifier {
 
     //把字符串进行encode操作
     cartString = json.encode(tempList).toString();
-    print('字符串>>>>>>>>>>>>>>>>> ${cartString}');
-    print('model类型>>>>>>>>>>>>>>>>> ${cartList}');
+    // print('字符串>>>>>>>>>>>>>>>>> ${cartString}');
+    // print('model类型>>>>>>>>>>>>>>>>> ${cartList}');
     prefs.setString('cartInfo', cartString); //进行持久化
     notifyListeners();
   }
