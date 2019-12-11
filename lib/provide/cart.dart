@@ -81,7 +81,35 @@ class CartProvide with ChangeNotifier {
         cartList.add(new CartInfoModel.fromJson(item));
       });
     }
-   
+    //改变后通知
     notifyListeners();
+  }
+
+  //删除单个商品
+  deleteOneGoods(String goodsId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //获取本地存储
+    cartString = prefs.getString('cartInfo');
+    //将本地存储格式转换为List<Map>类型
+    List<Map> tempList = (json.decode(cartString.toString()) as List).cast();
+    //定义数组下标和删除选项下标
+    int itemIndex = 0;
+    int delIndex = 0;
+    //循环列表
+    tempList.forEach((item) {
+      if (item['goodsId'] == goodsId) {
+        //如果id相同当前删除下标等于当前商品下标
+        delIndex = itemIndex;
+      }
+      itemIndex++;
+    });
+    //当前列表删除当前点击商品
+    tempList.removeAt(delIndex);
+    //重新将当前列表转化为字符串
+    cartString = json.encode(tempList).toString();
+    //重新持久化存储
+    prefs.setString('cartInfo', cartString);
+    //删除完成后重新拉取购物车信息
+    await getCartInfo();
   }
 }
