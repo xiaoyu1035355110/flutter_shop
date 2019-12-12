@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/index_page.dart';
 import 'package:provide/provide.dart';
+import './provide/current_index.dart';
 import './provide/counter.dart';
 import './provide/child_category.dart';
 import './provide/category_goods_list.dart';
@@ -11,6 +12,7 @@ import './routers/routes.dart';
 import './routers/application.dart';
 
 void main() {
+  var currentIndexProvide = CurrentIndexProvide();
   var counter = Counter();
   var childCategory = ChildCategory();
   var providers = Providers();//管理状态
@@ -24,6 +26,7 @@ void main() {
   Application.router = router; //router静态化
 
   providers
+    ..provide(Provider<CurrentIndexProvide>.value(currentIndexProvide))//管理Counter泛型的状态
     ..provide(Provider<Counter>.value(counter))//管理Counter泛型的状态
     ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide))//管理Counter泛型的状态
     ..provide(Provider<DetailsInfoProvide>.value(detailsInfoProvide))//管理Counter泛型的状态
