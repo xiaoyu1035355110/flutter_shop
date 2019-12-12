@@ -27,7 +27,7 @@ class CartItem extends StatelessWidget {
         children: <Widget>[
           _cartCheckBt(context, item),
           _cartImage(),
-          _cartGoodsName(),
+          _cartGoodsName(context, item),
           _cartPrice(context, item)
         ],
       ),
@@ -63,7 +63,7 @@ class CartItem extends StatelessWidget {
   }
 
   //商品名称
-  Widget _cartGoodsName() {
+  Widget _cartGoodsName(context, item) {
     return Container(
       width: ScreenUtil().setWidth(300),
       padding: EdgeInsets.all(10.0),
@@ -71,7 +71,7 @@ class CartItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(item.goodsName),
-          CartCount()
+          CartCount(item)
         ],
       ),
     );
