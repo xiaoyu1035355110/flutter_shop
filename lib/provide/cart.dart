@@ -24,6 +24,8 @@ class CartProvide with ChangeNotifier {
 
     bool isHave = false; //判断商品是否已经添加
     int iVal = 0; //用于进行循环的数组索引
+    allGoodsCount = 0;
+    allPrice = 0;
 
     tempList.forEach((item) {
       //循环商品列表判断商品是否存在
@@ -32,6 +34,11 @@ class CartProvide with ChangeNotifier {
         tempList[iVal]['count'] = item['count'] + 1;
         cartList[iVal].count++;
         isHave = true;
+      }
+
+      if (item['isCheck']) {
+        allPrice += (cartList[iVal].count * cartList[iVal].price);
+        allGoodsCount += cartList[iVal].count;
       }
 
       iVal++;
@@ -50,6 +57,8 @@ class CartProvide with ChangeNotifier {
       tempList.add(newGoods);
       //将商品转换为CartInfoModel类型
       cartList.add(new CartInfoModel.fromJson(newGoods));
+      allPrice += (count * price);
+      allGoodsCount += count;
     }
 
     //把字符串进行encode操作
