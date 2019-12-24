@@ -14,7 +14,8 @@ class MemberPage extends StatelessWidget {
         children: <Widget>[
           _topHeader(),
           _orderTitle(),
-          _orderType()
+          _orderType(),
+          _actionList()
         ],
       )
     );
@@ -130,6 +131,39 @@ class MemberPage extends StatelessWidget {
               ],
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  //通用listTile
+  Widget _myListTile(String title) {
+    return Container(
+      width: ScreenUtil().setWidth(750),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(width: 1, color: Colors.white12)
+        ),
+        color: Colors.white,
+      ),
+      child: ListTile(
+        leading: Icon(Icons.blur_circular),
+        title: Text(title),
+        trailing: Icon(Icons.arrow_right),
+      ),
+    );
+  }
+
+  Widget _actionList() {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Column(
+        children: <Widget>[
+          _myListTile('领取优惠券'),
+          _myListTile('已领取优惠券'),
+          _myListTile('地址管理'),
+          _myListTile('客服电话'),
+          _myListTile('关于我们'),
         ],
       ),
     );
